@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<svg version="1.2" baseProfile="tiny" viewBox="0 0 21000 29700" preserveAspectRatio="xMidYMid" fill-rule="evenodd" clip-path="url(#presentation_clip_path)" stroke-width="28.222" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:presentation="urn:oasis:names:tc:opendocument:xmlns:presentation:1.0" xmlns:smil="urn:oasis:names:tc:opendocument:xmlns:smil-compatible:1.0" xmlns:anim="urn:oasis:names:tc:opendocument:xmlns:animation:1.0" xml:space="preserve">
+ <defs>
+  <clipPath id="presentation_clip_path" clipPathUnits="userSpaceOnUse">
+   <rect x="0" y="0" width="21000" height="29700"/>
+  </clipPath>
+ </defs>
+ <defs>
+  <font id="EmbeddedFont_1" horiz-adv-x="2048">
+   <font-face font-family="Arial embedded" units-per-em="2048" font-weight="normal" font-style="normal" ascent="1852" descent="423"/>
+   <missing-glyph horiz-adv-x="2048" d="M 0,0 L 2047,0 2047,2047 0,2047 0,0 Z"/>
+   <glyph unicode="m" horiz-adv-x="1457" d="M 135,0 L 135,1062 296,1062 296,913 C 329,965 374,1007 429,1039 484,1070 547,1086 618,1086 697,1086 761,1070 812,1037 862,1004 897,959 918,900 1002,1024 1111,1086 1246,1086 1351,1086 1432,1057 1489,999 1546,940 1574,850 1574,729 L 1574,0 1395,0 1395,669 C 1395,741 1389,793 1378,825 1366,856 1345,882 1314,901 1283,920 1247,930 1206,930 1131,930 1069,905 1020,856 971,806 946,726 946,617 L 946,0 766,0 766,690 C 766,770 751,830 722,870 693,910 645,930 578,930 527,930 481,917 438,890 395,863 363,824 344,773 325,722 315,648 315,551 L 315,0 135,0 Z"/>
+   <glyph unicode="c" horiz-adv-x="927" d="M 828,389 L 1005,366 C 986,244 936,149 857,80 777,11 679,-24 563,-24 418,-24 301,24 213,119 124,214 80,350 80,527 80,642 99,742 137,828 175,914 233,979 311,1022 388,1065 473,1086 564,1086 679,1086 774,1057 847,999 920,940 967,857 988,750 L 813,723 C 796,794 767,848 725,884 682,920 631,938 571,938 480,938 407,906 350,841 293,776 265,673 265,532 265,389 292,286 347,221 402,156 473,124 561,124 632,124 691,146 738,189 785,232 815,299 828,389 Z"/>
+   <glyph unicode="1" horiz-adv-x="556" d="M 763,0 L 583,0 583,1147 C 540,1106 483,1064 413,1023 342,982 279,951 223,930 L 223,1104 C 324,1151 412,1209 487,1276 562,1343 616,1409 647,1472 L 763,1472 763,0 Z"/>
+   <glyph unicode="." horiz-adv-x="213" d="M 186,0 L 186,205 391,205 391,0 186,0 Z"/>
+  </font>
+ </defs>
+ <g id="id2" class="Master_Slide" clip-path="url(#presentation_clip_path)">
+  <g id="bg-id2" visibility="visible" class="Background">
+   <rect fill="none" stroke="none" x="0" y="0" width="21000" height="29700"/>
+  </g>
+  <g id="bo-id2" visibility="visible" class="BackgroundObjects"/>
+ </g>
+ <g id="id1" class="Slide" visibility="visible" clip-path="url(#presentation_clip_path)">
+  <g class="com.sun.star.drawing.CustomShape">
+   <g>
+    <path fill="none" stroke="rgb(128,128,128)" d="M 7801,8300 C 7150,8300 6500,8791 6500,9283 L 6500,13217 C 6500,13708 5850,14200 5200,14200 5850,14200 6500,14692 6500,15183 L 6500,19117 C 6500,19609 7150,20100 7801,20100"/>
+    <path fill="none" stroke="rgb(128,128,128)" d="M 5200,8300 L 5200,8300"/>
+    <path fill="none" stroke="rgb(128,128,128)" d="M 7801,20101 L 7801,20101"/>
+    <rect fill="none" stroke="none" x="5200" y="8300" width="2601" height="11801"/>
+   </g>
+  </g>
+  <g class="com.sun.star.drawing.MeasureShape">
+   <g>
+    <path fill="none" stroke="rgb(0,0,0)" d="M 4287,2800 L 14813,2800"/>
+    <path fill="rgb(0,0,0)" stroke="none" d="M 4000,2800 L 4300,2900 4300,2700 4000,2800 Z"/>
+    <path fill="rgb(0,0,0)" stroke="none" d="M 15100,2800 L 14800,2700 14800,2900 15100,2800 Z"/>
+    <path fill="none" stroke="rgb(0,0,0)" d="M 4000,3500 L 4000,2600"/>
+    <path fill="none" stroke="rgb(0,0,0)" d="M 15100,3500 L 15100,2600"/>
+    <g font-family="Arial embedded" font-size="423px" font-style="normal" font-weight="400">
+     <g fill="rgb(60,60,60)" stroke="none">
+      <text x="8858" y="2621">1</text>
+      <text x="9065" y="2621">1</text>
+      <text x="9303" y="2621">.</text>
+      <text x="9421" y="2621">1</text></g>
+     <g fill="rgb(60,60,60)" stroke="none">
+      <text x="9658" y="2621">c</text>
+      <text x="9870" y="2621">m</text></g>
+    </g>
+   </g>
+  </g>
+ </g>
+</svg>

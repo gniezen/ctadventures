@@ -1,0 +1,255 @@
+import websocket
+import thread
+import time
+import json
+import matplotlib.pyplot as p
+from fractions import Fraction
+import pickle
+import threading
+
+reference = 6.8
+
+command = ""
+iterations = 0
+yDisplay = [0]
+yDisplay2 = [0]
+yError=[]
+T=220
+x=[0]
+x2=[0]
+i=1
+time=0
+
+output=[]
+
+def getData(val):
+    users = []
+    
+    f = open('big.json','r')
+    d = json.load(f)    
+
+    for x in d['results']['participants']:
+        for i in x['chevrons']:
+            if float(i['ev']) == val:
+                
+                mouseEvents = 0
+                for val in i['rt']:
+                    if "mouse" in val['im']:
+                        mouseEvents +=1
+                print mouseEvents
+                if mouseEvents % 2 == 0:
+                    print "Equal, adding.."
+                    users.append(i['rt'])
+                else:
+                    print "Not equal, discarding.."
+
+    return users
+
+def plotResult():
+    global iterations, yDisplay, yOutput
+
+    #x = range(0,iterations+1)
+    print x, yDisplay
+    print len(x), len(yDisplay)
+
+    #p.plot([i*T for i in x],yDisplay,'r+-', label="PVSio model")
+    p.plot(x,yDisplay,'r+-', label="PVSio model")
+    p.plot(x2,yDisplay2,'g+-', label="User actions")
+    p.plot(x2,[reference for i in x2],'b', label = "Reference signal")
+    p.xlabel("Time (ms)")
+    p.legend()
+    p.show()
+    
+    f = open('actions.bin','wb')
+    pickle.dump(x,f)
+    pickle.dump(yDisplay,f)
+    f.close()
+
+def convert(s):
+    try:
+        return int(s)
+    except ValueError:
+        #return(s)
+        return float(Fraction(s))
+
+def parseOutput(output):
+    s = output.strip("(##)")
+    d = dict(item.split(":=") for item in s.split(",")) # Generate dictionary
+    return { k.strip():convert(v.strip()) for k, v in d.iteritems()} # Remove whitespace in dictionary
+
+def sendCommand(command, state):
+    state['command'] = command
+    cmdstate = '{command}((# left_display:={left_display}, step:={step}, timer:={timer} #));'.format(**state);
+    d = {"type":"sendCommand", "data":{'command':cmdstate}}
+    print "Sending:", d
+    ws.send(json.dumps(d))
+
+def on_message(ws, message):
+    global output
+#    global command, iterations, yDisplay, yError, x, x2, T, i, time, yDisplay2
+
+    print "Message: ", message
+    decoded = json.loads(message)
+    dtype =  decoded['type']
+    
+    print 'TYPE:', dtype
+
+
+    if(dtype == 'processReady'):
+        ws.send('{"type":"sendCommand","data":{"command":"press_UP((# left_display := 0, step := 1, timer := 5 #));"}}')
+
+    if(dtype == 'pvsoutput'):
+        
+#        iterations += 1
+        result = decoded['data']
+        lock = threading.RLock()
+        with lock: 
+            output = parseOutput(result[0])
+            print 'Output: ', output
+
+#        yDisplay.append(output['left_display'])
+
+#        
+#        error = reference - output['left_display']
+#        print "Error: ", error
+#        yError.append(error)
+
+#        print "User value: ", data[i]['v']
+
+#        timediff = data[i]['ts']  - time
+#        print "Time difference: ", timediff 
+#        print data[i]['im']   
+
+#        if(data[i]['btn'] == "bigUp"):
+#            if(data[i]['im'] == "click"):
+#                command = "click_UP"
+#                x.append(timediff)
+#            if(data[i]['im'] == "mouseup"):
+#                command = "press_UP"
+#                x.append(T+x[-1])
+#        if(data[i]['btn'] == "bigDown"):
+#            if(data[i]['im'] == "click"):
+#                command = "click_DN"
+#                x.append(timediff)
+#            if(data[i]['im'] == "mouseup"):
+#                command = "press_DN"
+#                x.append(T+x[-1])
+#        if(data[i]['btn'] == "smallUp"):
+#            if(data[i]['im'] == "click"):
+#                command = "click_up"
+#                x.append(timediff)
+#            if(data[i]['im'] == "mouseup"):
+#                command = "press_up"
+#                x.append(T+x[-1])
+#        if(data[i]['btn'] == "smallDown"):
+#            if(data[i]['im'] == "click"):
+#                command = "click_dn"
+#                x.append(timediff)
+#            if(data[i]['im'] == "mouseup"):
+#                command = "press_dn"
+#                x.append(T+x[-1]) 
+
+#        if(float(output['left_display']) == float(data[i]['v'])): #reached value
+#            
+#            print "WHA: ", x[-1], timediff
+#            
+
+#            if(x[-1] != timediff):
+#                command = "release_key"
+#                x.append(timediff)
+#            i+=1
+#            
+#           
+
+
+#        
+#        if iterations>50: # Don't continue beyond 50 button presses
+#            error = 0
+
+#        if(error == 0):
+#            command = ""
+
+#            #Get user actions
+#            for i in data:
+#                print i['btn'], ": ", i['im'], ": ",i['v'],": ", i['ts'] - time
+#        
+#                if i['ts'] - time != 0:    
+#                    x2.append(i['ts'] - time)
+
+#                    yDisplay2.append(i['v'])
+
+#            plotResult()
+
+#        if(command != ""):
+#            sendCommand(command,output)
+
+def on_error(ws, error):
+    print error
+
+def on_close(ws):
+    print "### closed ###"
+
+def on_open(ws):
+    ws.send('{"type":"startProcess","data":{"fileName":"pvscode/alarisAsenaCC"}}')
+
+
+if __name__ == "__main__":
+    websocket.enableTrace(True)
+    ws = websocket.WebSocketApp("ws://localhost:8080/",
+                                on_message = on_message,
+                                on_error = on_error,
+                                on_close = on_close)
+
+    ws.on_open = on_open
+
+    run_thread = threading.Thread(target=ws.run_forever,args=())
+    run_thread.daemon = True
+    run_thread.start()
+
+
+    data = getData(reference)         
+    while len(data)==0:
+        print "next"           
+        reference+=1.0
+        data = getData(reference)
+            
+    data=getData(reference)[0] # only first participant    
+    time = data[0]['ts'] # take first timestamp as t:=0    
+
+    for i in data:
+        print i['btn'], ": ", i['im'], ": ",i['v'],": ", i['ts'] - time
+
+        timediff = i['ts']  - time
+        print "Time difference: ", timediff 
+        print i['im']   
+
+        if(i['btn'] == "bigUp"):
+            if(i['im'] == "click"):
+                command = "click_UP"
+            if(i['im'] == "mouseup"):
+                command = "press_UP"
+        if(i['btn'] == "bigDown"):
+            if(i['im'] == "click"):
+                command = "click_DN"
+            if(i['im'] == "mouseup"):
+                command = "press_DN"
+        if(i['btn'] == "smallUp"):
+            if(i['im'] == "click"):
+                command = "click_up"
+            if(i['im'] == "mouseup"):
+                command = "press_up"
+        if(i['btn'] == "smallDown"):
+            if(i['im'] == "click"):
+                command = "click_dn"
+            if(i['im'] == "mouseup"):
+                command = "press_dn"
+
+        lock = threading.RLock()
+        with lock: 
+            display = output["left_display"]
+
+        if(display 
+
+        
+
+
