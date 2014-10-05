@@ -11,6 +11,7 @@ import operator
 time=0
 yDisplay = []
 yOutput = [0]
+yu = []
 yVelocity = [0]
 x = [0]
 
@@ -51,17 +52,30 @@ def getData():
 
     return users
 
+def ut(pvscmd):
+
+
+        if(pvscmd == "smallDown"):
+            return -1
+        if(pvscmd == "bigUp"):
+            return 2
+        if(pvscmd == "bigDown"):
+            return -2
+        if(pvscmd == "smallUp"):
+            return 1
+
 
 
 users = getData()
 
-for iteruser in range(0,len(users)):
-#for iteruser in range(0,1):
+#for iteruser in range(0,len(users)):
+for iteruser in range(0,1):
 
     user = users[iteruser] 
-    pp = PdfPages('pplots/participant'+str(iteruser)+'.pdf')
+    pp = PdfPages('plotUt/participant'+str(iteruser)+'.pdf')
 
-    nrPlots = len(user)
+    #nrPlots = len(user)
+    nrPlots = 20    
     print "Number of plots: ", nrPlots
 
     if(nrPlots == 100):
@@ -88,30 +102,59 @@ for iteruser in range(0,len(users)):
 
             yDisplay = []
             x = [0]
+            xu = [0]
+            yu = []
 
             for i in result[2]:
                 #print i['btn'], ": ", i['im'], ": ",i['v'],": ", i['ts'] - time
                 
                 if i['ts'] - time != 0:    
                     x.append(i['ts'] - time)
+                    xu.append(i['ts'] - time)
 
                 yDisplay.append(i['v'])
 
+                if(i['im'] == "mousedown"):
+                    yu.append(0)
+                    
+                    xu.append(xu[-1])
+                    yu.append(ut(i['btn']))
+
+                if(i['im'] == "click"):
+                    yu.append(0)
+                    
+                    xu.append(xu[-1])
+                    yu.append(ut(i['btn']))
+
+                    xu.append(xu[-1]+50)
+                    yu.append(ut(i['btn']))                    
+                    
+                    xu.append(xu[-1])
+                    yu.append(0)
+                
+                if(i['im'] == "mouseup"):
+                    yu.append(ut(i['btn']))
+
+                    xu.append(xu[-1])
+                    yu.append(0)
+                
             (xpvsdisplay,ypvsdisplay) = PVSIOModel.getDisplay(time,reference,result[2])
             
             p.title("User "+ str(iteruser)+ ", reference="+str(result[1]),fontsize=6)
             
-            try:
-                p.plot(x,yDisplay,'r+-', label="User")
-            except ValueError, e:
-                p.text(0.5, 0.5,'Unable to plot',horizontalalignment='center',verticalalignment='center')
-                print e
+#            try:
+#                p.plot(x,yDisplay,'r+-', label="User")
+#            except ValueError, e:
+#                p.text(0.5, 0.5,'Unable to plot',horizontalalignment='center',verticalalignment='center')
+#                print e
 
-            p.plot(x,[reference for i in x],'m', label = "Reference signal")
+            p.plot(x,[reference for i in x],'b', label = "Reference signal")
 
-            p.plot(xpvsdisplay, ypvsdisplay,'g-', label="PVSio model")
-            p.grid(b=True, which='major', color='b', linestyle='-')
-            p.grid(b=True, which='minor', color='y', linestyle='--')
+            p.plot(xpvsdisplay, ypvsdisplay,'m-', label="PVSio model")
+                        
+            p.plot(xu,yu,'g-', label="u(t)")
+            #p.grid(b=True, which='major', color='b', linestyle='--')
+            #p.grid(b=True, which='minor', color='y', linestyle='--')
             
             #p.show() ##
         

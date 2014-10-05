@@ -23,8 +23,6 @@ target=0
 cumulTime =0
 
 
-
-
 def getData(val):
     users = []
     
