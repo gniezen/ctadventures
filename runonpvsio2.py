@@ -6,7 +6,7 @@ import matplotlib.pyplot as p
 from fractions import Fraction
 import pickle
 
-reference = 3.29
+#reference = 3.29
 
 command = ""
 iterations = 0
@@ -21,8 +21,6 @@ i=0
 time=0
 target=0
 cumulTime =0
-
-
 
 
 def getData(val):
