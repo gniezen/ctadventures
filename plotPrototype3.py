@@ -42,7 +42,7 @@ over = False
 maxcrossings = 0
 
 with ppl.pretty:
-    fig = p.figure()
+    fig = p.figure(figsize=(8,6))
     #ax = fig.add_axes([0,0,1,1])
     ax = fig.add_subplot(111)
     
@@ -160,7 +160,7 @@ print "Max. crossings: " + str(maxcrossings)
 p.xlabel("Time (s)")
 p.ylabel("Displayed value")
 p.text(0.5,ref+0.5,"Setpoint")           
-#figure = p.gcf() # get current figure
+fig = p.gcf() # get current figure
 fig.set_size_inches(11.69, 8.27)
 
 fig.savefig("proto/prototypeResults"+str(ref)+".pdf",format="pdf",papertype='a4',dpi=100)
