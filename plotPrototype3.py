@@ -14,6 +14,8 @@ import prettyplotlib as ppl
 #font = {'size' : 20}
 #matplotlib.rc('font', **font)
 
+speed = []
+
 if len(sys.argv) > 1:
     ref = float(sys.argv[1])
 else:
@@ -123,7 +125,9 @@ for a in d:
         
         if crossings > maxcrossings:
             maxcrossings = crossings
-
+            
+        speed.append(xt[-1])
+        print "Speed: ", speed[-1]
         
         
 #        axdata = p.subplot2grid((20,20),(px,py),colspan=4,rowspan=3)
@@ -155,11 +159,18 @@ for a in d:
             #p.tight_layout() # to prevent clipping of titles and labels
 
 print "Max. crossings: " + str(maxcrossings)
+
+print speed
+speed = numpy.array(speed)
+print "Mean: " + str(numpy.mean(speed))
+print "Standard deviation: " + str(numpy.std(speed))
+
+
 #p.text(0.7,0.9,"Overshoot = "+str(overshoot),transform = ax.transAxes) 
 #p.title("Reference = "+ str(ref)+ " (" + str(plotid) + " trials)")
 p.xlabel("Time (s)")
 p.ylabel("Displayed value")
-p.text(0.5,ref+0.5,"Setpoint")           
+p.text(0.5,ref+0.1,"Setpoint")           
 fig = p.gcf() # get current figure
 fig.set_size_inches(11.69, 8.27)
 
